@@ -4,6 +4,8 @@
  */
 package AgendaDeContatos;
 
+import AgendaDeContatos.view.TelaInicial;
+
 /**
  *
  * @author joser
@@ -14,7 +16,10 @@ public class Agenda_Contatos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+         //chamada da tela inicial
+        TelaInicial telaInicial = new TelaInicial();
+        telaInicial.setVisible(true);
+        telaInicial.setTitle("Cadastro de clientes");
     }
     
 }
