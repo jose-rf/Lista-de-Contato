@@ -4,16 +4,22 @@
  */
 package AgendaDeContatos.view;
 
+import AgendaDeContatos.controler.ClienteRepository;
+import AgendaDeContatos.controler.ConexaoMySQL;
+import AgendaDeContatos.model.Contatos;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joser
  */
 public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
-
+     private static TelaAlteracaoClientes instancia;
+     private TelaInicial telaInicial;
     /**
      * Creates new form TelaAlteracaoClientes
      */
-    public TelaAlteracaoClientes() {
+    public TelaAlteracaoClientes(TelaInicial telaInicial1) {
         initComponents();
     }
 
@@ -31,26 +37,20 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        btnCadastro = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnFechar = new javax.swing.JButton();
         txtTelefone = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+        btnApagar = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("   CADASTRO");
+        jLabel1.setText("ALTERAR CADASTRO");
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setText("Nome:");
 
         jLabel3.setText("Email:");
-
-        btnCadastro.setText("Cadastrar");
-        btnCadastro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastroActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Telefone:");
 
@@ -69,6 +69,19 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
             }
         });
 
+        txtId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdActionPerformed(evt);
+            }
+        });
+
+        btnApagar.setText("Excluir");
+        btnApagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApagarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,28 +97,33 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnSalvar)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnCadastro)
-                            .addGap(14, 14, 14)
-                            .addComponent(btnFechar)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(69, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(133, 133, 133))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(btnSalvar)
+                .addGap(18, 18, 18)
+                .addComponent(btnFechar)
+                .addGap(18, 18, 18)
+                .addComponent(btnApagar)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel1)
-                .addGap(36, 36, 36)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -116,70 +134,18 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(btnCadastro)
                     .addComponent(btnFechar)
-                    .addComponent(btnSalvar))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(btnSalvar)
+                    .addComponent(btnApagar))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
-        // TODO add your handling code here:
-        try {
-            // Criando cliente com os dados do formulário
-            Clientes cliente = new Clientes();
-            cliente.setNome(txtNome.getText());
-            cliente.setEmail(txtEmail.getText());
-            cliente.setTelefone(txtTelefone.getText());
-            cliente.setCpf(txtCpf.getText());
-            cliente.setDataNascimento(txtDataNascimento.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setHistoricoMedico(txtHistoricoMedico.getText());
-
-            ClienteRepository clienteRepository = new ClienteRepository();
-
-            boolean retornoBanco;
-
-            // Verifica se o ID está preenchido
-            if (txtId.getText().isEmpty() || txtId.getText().equals("0")) {
-                // Inserção de novo cliente
-                retornoBanco = clienteRepository.inserir(ConexaoMySQL.connection, cliente);
-            } else {
-                // Atualização de cliente existente
-                cliente.setId(Integer.parseInt(txtId.getText()));
-                retornoBanco = clienteRepository.atualizar(ConexaoMySQL.connection, cliente);
-            }
-
-            if (retornoBanco) {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Cadastro realizado com sucesso!",
-                    "Tela de Cadastro",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-                limparJanela();
-            } else {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Erro ao cadastrar o cliente.",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE
-                );
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Ocorreu um erro: " + e.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }//GEN-LAST:event_btnCadastroActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         // TODO add your handling code here:
@@ -189,21 +155,17 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         // Criando cliente com os dados do formulário
-        Clientes cliente = new Clientes();
-        cliente.setNome(txtNome.getText());
-        cliente.setEmail(txtEmail.getText());
-        cliente.setTelefone(txtTelefone.getText());
-        cliente.setCpf(txtCpf.getText());
-        cliente.setDataNascimento(txtDataNascimento.getText());
-        cliente.setEndereco(txtEndereco.getText());
-        cliente.setHistoricoMedico(txtHistoricoMedico.getText());
+        Contatos contato = new Contatos();
+        contato.setNome(txtNome.getText());
+        contato.setEmail(txtEmail.getText());
+        contato.setContato(txtTelefone.getText());
 
         ClienteRepository clienteRepository = new ClienteRepository();
 
         boolean retornoBanco;
 
         // Atualização de cliente existente, sem verificar id
-        retornoBanco = clienteRepository.atualizar(ConexaoMySQL.connection, cliente);
+        retornoBanco = clienteRepository.atualizar(ConexaoMySQL.connection, contato);
 
         if (retornoBanco) {
             JOptionPane.showMessageDialog(
@@ -223,9 +185,55 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
+
+    private void btnApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarActionPerformed
+        // TODO add your handling code here:
+        ClienteRepository clienteRepository = new ClienteRepository();
+    Contatos contatoParaExcluir = new Contatos();
+    contatoParaExcluir.setContato(txtTelefone.getText().trim()); // O contato já está preenchido
+
+    boolean sucesso = clienteRepository.deletar(ConexaoMySQL.connection, contatoParaExcluir);
+
+    if (sucesso) {
+        JOptionPane.showMessageDialog(this, "Usuário excluído com sucesso!",
+                                      "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        fecharJanela(); // Fecha a tela após excluir
+    } else {
+        JOptionPane.showMessageDialog(this, "Erro ao excluir usuário.",
+                                      "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnApagarActionPerformed
+    //função de limpar a janlea
+       private void limparJanela(){
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtTelefone.setText("");
+    }
+    //função para fechar a janela
+    private void fecharJanela(){
+        instancia = null;
+        dispose();
+    }
+    
+    public static TelaAlteracaoClientes getInstancia(TelaInicial telaInicial) {
+    if (instancia == null)
+        instancia = new TelaAlteracaoClientes(telaInicial);
+    return instancia;
+}
+    public void setCliente(Contatos contato) {
+    // Preenchimento dos campos da tela de alteração com os dados do cliente
+    txtNome.setText(contato.getNome());
+    txtEmail.setText(contato.getEmail());
+    txtTelefone.setText(contato.getContato());
+    
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCadastro;
+    private javax.swing.JButton btnApagar;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
@@ -233,6 +241,7 @@ public class TelaAlteracaoClientes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables

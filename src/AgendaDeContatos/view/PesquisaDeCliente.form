@@ -16,9 +16,6 @@
     </Property>
     <Property name="title" type="java.lang.String" value="Altera&#xe7;&#xe3;o de Cadastro"/>
     <Property name="doubleBuffered" type="boolean" value="true"/>
-    <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-      <Image iconType="3" name="/resources/icons8-fisioterapia-16.png"/>
-    </Property>
     <Property name="visible" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>

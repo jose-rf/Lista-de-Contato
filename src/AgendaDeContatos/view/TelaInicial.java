@@ -6,36 +6,33 @@ package AgendaDeContatos.view;
 
 import AgendaDeContatos.controler.Conexao;
 import AgendaDeContatos.controler.ConexaoMySQL;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author joser
- */
 public class TelaInicial extends javax.swing.JFrame {
 
-    TelaCadastro telaCadastro;
-    PesquisaDeCliente pesquisaDeCliente;
-
+    private TelaCadastro telaCadastro;
+    private PesquisaDeCliente pesquisaDeCliente;
+    private Listagem listagem;
     private Conexao conexao;
     public ConexaoMySQL conexaoMySQL;
-    /**
-     * Creates new form TelaInicial
-     */
+
     public TelaInicial() {
         initComponents();
-        conexao = new Conexao(
-                "localhost",
-                "root",
-                "",
-                3306,
-                "clinica_fisioterapia"
-        );
+
+        // Inicializa conexão com o banco
+        conexao = new Conexao("localhost", "root", "", 3306, "AgendaDeContatos");
         conexaoMySQL = new ConexaoMySQL(conexao);
         conexaoMySQL.conectar();
-    }
 
+        // Inicializa e configura `desktopPane`
+        if (desktopPane == null) {
+            desktopPane = new JDesktopPane();
+            setContentPane(desktopPane);
+            desktopPane.setVisible(true);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -156,98 +153,89 @@ public class TelaInicial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Tenta abrir a tela de cadastro de clientes
-        try {
-            // Cria uma instância da tela de cadastro de clientes
-            telaCadastro = telaCadastro.getInstancia(this);
+           try {
+            telaCadastro = TelaCadastro.getInstancia(this);
 
-            // Verifica se a tela já está adicionada ao JDesktopPane
             if (!desktopPane.isAncestorOf(telaCadastro)) {
-                desktopPane.add(telaCadastro);  // Adiciona a tela diretamente
+                desktopPane.add(telaCadastro);
+                telaCadastro.setVisible(true);
                 telaCadastro.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
             }
 
-            // Tenta selecionar a tela e trazê-la para o topo
-            telaCadastro.setSelected(true);
+            try {
+                telaCadastro.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+
+            System.out.println("TelaCadastro instanciada corretamente: " + telaCadastro);
         } catch (Exception ex) {
-            // Em caso de erro, mostra uma mensagem de erro
-            JOptionPane.showConfirmDialog(null,
-                "Erro ao abrir a tela de cadastro de clientes: " + ex.getMessage(),
-                "Cadastro de clientes",
+            JOptionPane.showMessageDialog(null,
+                "Erro ao abrir a tela de cadastro: " + ex.getMessage(),
+                "Cadastro",
                 JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        // Tenta abrir a tela de pesquisa de clientes
-        try {
-            // Cria uma instância da tela de pesquisa de clientes
-            // Cria uma instância da tela de cadastro de clientes
+       try {
             pesquisaDeCliente = PesquisaDeCliente.getInstancia(this);
 
-            // Verifica se a tela já está adicionada ao JDesktopPane
             if (!desktopPane.isAncestorOf(pesquisaDeCliente)) {
-                desktopPane.add(pesquisaDeCliente);  // Adiciona a tela diretamente
+                desktopPane.add(pesquisaDeCliente);
+                pesquisaDeCliente.setVisible(true);
                 pesquisaDeCliente.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
             }
 
-            // Tenta selecionar a tela e trazê-la para o topo
-            pesquisaDeCliente.setSelected(true);
+            try {
+                pesquisaDeCliente.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
         } catch (Exception ex) {
-            // Em caso de erro, mostra uma mensagem de erro
-            JOptionPane.showConfirmDialog(null,
-                "Erro ao abrir a tela de pesquisa de clientes: " + ex.getMessage(),
-                "Pesquisa de clientes",
+            JOptionPane.showMessageDialog(null,
+                "Erro ao abrir a tela de pesquisa: " + ex.getMessage(),
+                "Pesquisa",
                 JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        try {
+            listagem = Listagem.getInstancia(this);
+
+            if (!desktopPane.isAncestorOf(listagem)) {
+                desktopPane.add(listagem);
+                listagem.setVisible(true);
+                listagem.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+            }
+
+            try {
+                listagem.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                "Erro ao abrir a tela de listagem: " + ex.getMessage(),
+                "Listagem",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnListaActionPerformed
 
     private void btnFechar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFechar1ActionPerformed
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_btnFechar1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaInicial().setVisible(true);
-            }
-        });
+   public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(() -> new TelaInicial().setVisible(true));
     }
-    
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFechar1;
@@ -259,4 +247,9 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
+
+   public JDesktopPane getDesktopPane() {
+    return desktopPane;
+}
+
 }

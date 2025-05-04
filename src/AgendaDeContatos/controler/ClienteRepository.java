@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClienteRepository implements Crud<Contatos> {
@@ -13,29 +15,28 @@ public class ClienteRepository implements Crud<Contatos> {
     //método inserir
     @Override
     public boolean inserir(Connection connection, Contatos entity) {
-        String comando = "INSERT INTO CLIENTES(nome, email, contato) " +
-                         "VALUES(?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(comando)) {
-            stmt.setString(1, entity.getNome());
-            stmt.setString(3, entity.getEmail());
-            stmt.setString(4, entity.getContato());
-            stmt.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return false;
-        }
+       String comando = "INSERT INTO CLIENTES(nome, email, contato) VALUES(?, ?, ?)";
+    try (PreparedStatement stmt = connection.prepareStatement(comando)) {
+        stmt.setString(1, entity.getNome());
+        stmt.setString(2, entity.getEmail()); // Corrigido: agora usa índice 2 corretamente
+        stmt.setString(3, entity.getContato()); // Corrigido: agora usa índice 3 corretamente
+        stmt.executeUpdate();
+        return true;
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+        return false;
+    }
     }
     
     //método de atualizar com base no cpf
     @Override
     public boolean atualizar(Connection connection, Contatos entity) {
-          String comando = "UPDATE CLIENTES SET nome = ?, endereco = ?, email = ?, contato = ?, WHERE telefone = ?";
+        String comando = "UPDATE CLIENTES SET nome = ?, email = ?, contato = ? WHERE contato = ?";
     try (PreparedStatement stmt = connection.prepareStatement(comando)) {
         stmt.setString(1, entity.getNome());
-        stmt.setString(3, entity.getEmail());
-        stmt.setString(4, entity.getContato());
-        stmt.setString(8, entity.getContato());  // Usando o CPF para localizar o cliente
+        stmt.setString(2, entity.getEmail()); // Corrigido índice 2 corretamente
+        stmt.setString(3, entity.getContato()); // Corrigido índice 3 corretamente
+        stmt.setString(4, entity.getContato()); // Corrigido índice 4 corretamente
         stmt.executeUpdate();
         return true;
     } catch (SQLException ex) {
@@ -78,4 +79,26 @@ public class ClienteRepository implements Crud<Contatos> {
         }
         return null;  // Retorna null caso não encontre o CPF
     }
+    
+    public List<Contatos> listarTodos() {
+    List<Contatos> lista = new ArrayList<>();
+    String comando = "SELECT * FROM CLIENTES";
+    
+    try (PreparedStatement stmt = connection.prepareStatement(comando);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            Contatos contato = new Contatos();
+            contato.setId(rs.getInt("id"));
+            contato.setNome(rs.getString("nome"));
+            contato.setEmail(rs.getString("email"));
+            contato.setContato(rs.getString("contato"));
+            lista.add(contato);
+        }
+    } catch (SQLException ex) {
+        System.err.println("Erro ao listar contatos: " + ex.getMessage());
+    }
+    
+    return lista;
+}
 }

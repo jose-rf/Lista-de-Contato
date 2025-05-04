@@ -134,52 +134,33 @@ public class TelaCadastro extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
-        // TODO add your handling code here:
-        try {
-            // Criando cliente com os dados do formulário
+           try {
             Contatos contato = new Contatos();
             contato.setNome(txtNome.getText());
             contato.setEmail(txtEmail.getText());
             contato.setContato(txtTelefone.getText());
-            
 
             ClienteRepository clienteRepository = new ClienteRepository();
-
             boolean retornoBanco;
 
-            // Verifica se o ID está preenchido
             if (txtId.getText().isEmpty() || txtId.getText().equals("0")) {
-                // Inserção de novo cliente
                 retornoBanco = clienteRepository.inserir(ConexaoMySQL.connection, contato);
             } else {
-                // Atualização de cliente existente
                 contato.setId(Integer.parseInt(txtId.getText()));
                 retornoBanco = clienteRepository.atualizar(ConexaoMySQL.connection, contato);
             }
 
             if (retornoBanco) {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Cadastro realizado com sucesso!",
-                    "Tela de Cadastro",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!",
+                    "Tela de Cadastro", JOptionPane.INFORMATION_MESSAGE);
                 limparJanela();
             } else {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Erro ao cadastrar o cliente.",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE
-                );
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar.",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Ocorreu um erro: " + e.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(),
+                "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCadastroActionPerformed
 
