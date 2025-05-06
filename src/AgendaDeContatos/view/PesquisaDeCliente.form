@@ -55,7 +55,7 @@
                       <Component id="btnFechar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -79,7 +79,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Para alterar os dados de um usu&#xe1;rio, insira o CPF para realizar a busca:"/>
+        <Property name="text" type="java.lang.String" value="Para alterar os dados de um usu&#xe1;rio, insira o contato para realizar a busca:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPesquisa">

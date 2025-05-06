@@ -41,7 +41,7 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
         setDoubleBuffered(true);
         setVisible(true);
 
-        jLabel1.setText("Para alterar os dados de um usuário, insira o CPF para realizar a busca:");
+        jLabel1.setText("Para alterar os dados de um usuário, insira o contato para realizar a busca:");
 
         txtPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +81,7 @@ public class PesquisaDeCliente extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(168, 168, 168)
                         .addComponent(btnFechar)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

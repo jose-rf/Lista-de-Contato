@@ -48,16 +48,18 @@ public class Listagem extends javax.swing.JInternalFrame {
         tabela = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnFechar = new javax.swing.JButton();
+        btnApagar = new javax.swing.JButton();
+        btnSalvar5 = new javax.swing.JButton();
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "NOME", "EMAIL"
+                "ID", "NOME", "EMAIL", "CONTATO"
             }
         ));
         jScrollPane1.setViewportView(tabela);
@@ -68,6 +70,21 @@ public class Listagem extends javax.swing.JInternalFrame {
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);
+            }
+        });
+
+        btnApagar.setText("Excluir");
+        btnApagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApagarActionPerformed(evt);
+            }
+        });
+
+        btnSalvar5.setText("Alterar");
+        btnSalvar5.setActionCommand("Salvar");
+        btnSalvar5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvar5ActionPerformed(evt);
             }
         });
 
@@ -84,19 +101,30 @@ public class Listagem extends javax.swing.JInternalFrame {
                         .addGap(165, 165, 165)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
+                        .addGap(65, 65, 65)
+                        .addComponent(btnSalvar5)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnApagar)
+                        .addGap(18, 18, 18)
                         .addComponent(btnFechar)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addComponent(btnFechar)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                        .addGap(88, 88, 88))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnFechar)
+                            .addComponent(btnSalvar5)
+                            .addComponent(btnApagar))
+                        .addGap(39, 39, 39))))
         );
 
         pack();
@@ -106,6 +134,67 @@ public class Listagem extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         fecharJanela();
     }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void btnApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarActionPerformed
+        int linhaSelecionada = tabela.getSelectedRow();
+
+    if (linhaSelecionada == -1) {
+        JOptionPane.showMessageDialog(this, "Selecione um contato para excluir.",
+                "Atenção", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    int confirmacao = JOptionPane.showConfirmDialog(this,
+            "Tem certeza que deseja excluir o contato selecionado?",
+            "Confirmação", JOptionPane.YES_NO_OPTION);
+
+    if (confirmacao == JOptionPane.YES_OPTION) {
+        // Obtém o ID da linha selecionada (assumindo que está na primeira coluna)
+        int idContato = (int) tabela.getValueAt(linhaSelecionada, 0);
+
+        ClienteRepository clienteRepository = new ClienteRepository();
+        boolean sucesso = clienteRepository.deletarPorId(ConexaoMySQL.connection, idContato);
+
+        if (sucesso) {
+            JOptionPane.showMessageDialog(this, "Contato excluído com sucesso.",
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            carregarTabela(); // Atualiza a tabela após a exclusão
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir contato.",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }//GEN-LAST:event_btnApagarActionPerformed
+
+    private void btnSalvar5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar5ActionPerformed
+        // TODO add your handling code here:
+         int linhaSelecionada = tabela.getSelectedRow();
+
+    if (linhaSelecionada == -1) {
+        JOptionPane.showMessageDialog(this, "Selecione um contato para alterar.",
+                "Atenção", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Pegando os dados da linha selecionada
+    int id = (int) tabela.getValueAt(linhaSelecionada, 0);
+    String nome = (String) tabela.getValueAt(linhaSelecionada, 1);
+    String email = (String) tabela.getValueAt(linhaSelecionada, 2);
+    String telefone = (String) tabela.getValueAt(linhaSelecionada, 3);
+
+    // Criando o objeto Contatos com os dados selecionados
+    Contatos contatoSelecionado = new Contatos();
+    contatoSelecionado.setId(id);
+    contatoSelecionado.setNome(nome);
+    contatoSelecionado.setEmail(email);
+    contatoSelecionado.setContato(telefone);
+
+    // Abrindo a tela de alteração e preenchendo os dados
+    TelaAlteracaoClientes telaAlteracao = TelaAlteracaoClientes.getInstancia(telaInicial);
+    telaAlteracao.setCliente(contatoSelecionado);
+    telaInicial.getDesktopPane().add(telaAlteracao); // Adiciona ao JDesktopPane
+    telaAlteracao.setVisible(true);
+    }//GEN-LAST:event_btnSalvar5ActionPerformed
 
   private void fecharJanela(){
         instancia = null;
@@ -118,7 +207,9 @@ public class Listagem extends javax.swing.JInternalFrame {
         return instancia;
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnApagar;
     private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnSalvar5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabela;

@@ -80,6 +80,19 @@ public class ClienteRepository implements Crud<Contatos> {
         return null;  // Retorna null caso não encontre o CPF
     }
     
+    public boolean deletarPorId(Connection conn, int id) {
+    String sql = "DELETE FROM clientes WHERE id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, id);
+        int linhasAfetadas = stmt.executeUpdate();
+        return linhasAfetadas > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+    
     public List<Contatos> listarTodos() {
     List<Contatos> lista = new ArrayList<>();
     String comando = "SELECT * FROM CLIENTES";
