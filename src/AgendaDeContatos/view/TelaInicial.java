@@ -58,6 +58,8 @@ public class TelaInicial extends javax.swing.JFrame {
         desktopPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton1.setText("Criar Cadastro");
+        jButton1.setMaximumSize(new java.awt.Dimension(178, 23));
+        jButton1.setMinimumSize(new java.awt.Dimension(178, 23));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -72,6 +74,8 @@ public class TelaInicial extends javax.swing.JFrame {
         });
 
         btnLista.setText("Lista de Contatos");
+        btnLista.setMaximumSize(new java.awt.Dimension(178, 23));
+        btnLista.setMinimumSize(new java.awt.Dimension(178, 23));
         btnLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListaActionPerformed(evt);
@@ -80,6 +84,8 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("CADASTRO DE CONTATOS");
+        jLabel1.setToolTipText("");
+        jLabel1.setAlignmentX(0.5F);
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(6, 3, 2)));
         jLabel1.setPreferredSize(new java.awt.Dimension(140, 18));
 
@@ -111,10 +117,10 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopPaneLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton1)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
-                    .addComponent(btnLista)
-                    .addComponent(btnFechar1)
+                    .addComponent(btnLista, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFechar1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(154, 154, 154))
         );
@@ -128,11 +134,11 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLista)
+                .addComponent(btnLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFechar1)
                 .addGap(54, 54, 54))
