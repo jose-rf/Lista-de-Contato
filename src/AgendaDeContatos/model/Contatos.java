@@ -1,19 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package AgendaDeContatos.model;
 
 /**
- *
- * @author joser
+ * Classe que representa um contato da agenda.
+ * Tem os atributos: nome, email, contato (telefone) e id.
  */
 public class Contatos {
-    private String nome;
-    private String email;
-    private String contato;
-    private int id;
+    private String nome;    // nome do contato
+    private String email;   // email do contato
+    private String contato; // telefone ou número de contato
+    private int id;         // identificador único do contato (no banco de dados)
 
+    // construtor com todos os atributos
     public Contatos(String nome, String email, String contato, int id) {
         this.nome = nome;
         this.email = email;
@@ -21,11 +18,11 @@ public class Contatos {
         this.id = id;
     }
 
-    
+    // construtor vazio (útil para frameworks ou quando quiser setar depois)
     public Contatos() {
-    
     }
-    
+
+    // getters e setters
     public String getNome() {
         return nome;
     }
@@ -57,6 +54,4 @@ public class Contatos {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
 }

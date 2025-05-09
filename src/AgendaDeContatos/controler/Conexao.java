@@ -9,14 +9,14 @@ package AgendaDeContatos.controler;
  * @author joser
  */
 public class Conexao {
-    private String endereco;
-    private String user;
-    private String password;
-    private int    porta;
-    private String nomeBanco;
+    // atributos para armazenar os dados da conexão
+    private String endereco;  // endereço do servidor (ex: localhost)
+    private String user;      // usuário do banco
+    private String password;  // senha do banco
+    private int porta;        // porta de conexão (ex: 3306 para MySQL)
+    private String nomeBanco; // nome do banco de dados
     
-    //conexão com o banco de dados
-
+    // construtor que recebe todos os dados necessários para conectar
     public Conexao(String endereco, String user, String password, int porta, String nomeBanco) {
         this.endereco = endereco;
         this.user = user;
@@ -24,6 +24,8 @@ public class Conexao {
         this.porta = porta;
         this.nomeBanco = nomeBanco;
     }
+
+    // métodos getters e setters (acessar ou alterar os valores dos atributos)
 
     public String getEndereco() {
         return endereco;

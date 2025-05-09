@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package AgendaDeContatos;
 
+// importando a tela inicial da aplicação
 import AgendaDeContatos.view.TelaInicial;
 
 /**
@@ -13,12 +10,16 @@ import AgendaDeContatos.view.TelaInicial;
 public class Agenda_Contatos {
 
     /**
-     * @param args the command line arguments
+     * Método principal, é onde o programa começa
      */
     public static void main(String[] args) {
-         //chamada da tela inicial
+        // Cria uma nova instância da tela inicial
         TelaInicial telaInicial = new TelaInicial();
+        
+        // deixa a tela visível
         telaInicial.setVisible(true);
+        
+        // define o título da janela
         telaInicial.setTitle("Cadastro de clientes");
     }
     

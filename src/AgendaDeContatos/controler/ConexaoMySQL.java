@@ -6,59 +6,61 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class ConexaoMySQL {
-    private Conexao conexao; // Classe de configuração para banco de dados
+    private Conexao conexao; // objeto da classe Conexao, com os dados da conexão
 
-    public static Connection connection = null; // Conexão pública
+    public static Connection connection = null; // variável estática para armazenar a conexão
 
-    // Construtor que recebe uma instância de Conexao
+    // construtor que recebe a configuração da conexão
     public ConexaoMySQL(Conexao conexao) {
         this.conexao = conexao;
     }
 
-    // Construtor sem parâmetros
+    // construtor vazio (caso precise instanciar sem passar nada)
     public ConexaoMySQL() {
     }
 
-    // Método para conectar ao banco de dados
+    // método que faz a conexão com o banco de dados
     public Connection conectar() {
-        if (conexao != null) {
+        if (conexao != null) { // verifica se o objeto conexao está preenchido
             try {
+                // monta a URL de conexão com base nos dados da classe Conexao
                 String url = "jdbc:mysql://" + conexao.getEndereco() +
                         ":" + conexao.getPorta() +
                         "/" + conexao.getNomeBanco();
 
-                // Carregar o driver JDBC para MySQL
+                // carrega o driver JDBC do MySQL
                 Class.forName("com.mysql.cj.jdbc.Driver");
 
-                // Estabelece a conexão e retorna a Connection
+                // cria a conexão passando url, usuário e senha
                 connection = DriverManager.getConnection(
                         url,
                         conexao.getUser(),
                         conexao.getPassword()
                 );
-                return connection;  // Retorna a Connection estabelecida
+                return connection;  // retorna a conexão aberta
             } catch (Exception ex) {
+                // mostra uma mensagem de erro caso aconteça alguma exceção
                 JOptionPane.showMessageDialog(
                         null,
                         "Erro ao conectar no banco de dados: " + ex.getMessage(),
                         "Erro ao conectar",
                         JOptionPane.ERROR_MESSAGE
                 );
-                return null; // Caso haja erro, retorna null
+                return null; // retorna null se não conseguir conectar
             }
         } else {
-            return null;
+            return null; // se o objeto conexao for null, também retorna null
         }
     }
 
-    // Método para fechar a conexão com o banco de dados
+    // método para fechar a conexão com o banco
     public static void fecharConexao() {
         try {
             if (connection != null && !connection.isClosed()) {
-                connection.close(); // Fecha a conexão
+                connection.close(); // fecha a conexão se ela estiver aberta
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // imprime o erro no console caso aconteça
         }
     }
 }
