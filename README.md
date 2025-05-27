@@ -35,6 +35,24 @@ Gerencia as regras de negócio e operações no banco de dados.
 
 ---
 
+🛎️ Funcionalidade de Notificações
+O sistema também implementa uma funcionalidade de notificações parciais utilizando o padrão Observer.
+
+Sempre que um novo usuário (contato) é cadastrado, o sistema notifica todos os usuários já cadastrados, exceto o recém adicionado, informando sobre o novo cadastro.
+
+Como funciona a notificação?
+A classe CadastroUsuario é responsável pelo cadastro dos usuários.
+
+Ao cadastrar um novo usuário, ela obtém a lista de usuários antigos (excluindo o novo).
+
+Para cada usuário antigo, adiciona observadores concretos de notificação: por e-mail (EmailNotifier) e SMS (SmsNotifier).
+
+Em seguida, chama o método notificarTodos do UserNotifier para enviar a mensagem a todos os observadores cadastrados.
+
+Após a notificação, a lista de observadores é limpa para evitar envios repetidos.
+
+---
+
 ## 🛠️ Configuração do Banco de Dados
 Antes de rodar o projeto, **crie o banco de dados** e a tabela executando este script no MySQL:
 
