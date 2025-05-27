@@ -2,15 +2,15 @@ package AgendaDeContatos.view;
 
 import AgendaDeContatos.controler.ClienteRepository;
 import AgendaDeContatos.controler.ConexaoMySQL;
+import static AgendaDeContatos.controler.ConexaoMySQL.connection;
 import AgendaDeContatos.model.Contatos;
 import java.util.List;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Listagem extends javax.swing.JInternalFrame {
     private static Listagem instancia;
-    private TelaInicial telaInicial;
+    private final TelaInicial telaInicial;
 
     public Listagem(TelaInicial telaInicial) {
         initComponents();
@@ -20,7 +20,7 @@ public class Listagem extends javax.swing.JInternalFrame {
     
     private void carregarTabela() {
         ClienteRepository clienteRepository = new ClienteRepository();
-        List<Contatos> listaContatos = clienteRepository.listarTodos();
+        List<Contatos> listaContatos = clienteRepository.listarTodos(connection);
 
         DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
         modelo.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
@@ -202,10 +202,12 @@ public class Listagem extends javax.swing.JInternalFrame {
     }
     
     public static Listagem getInstancia(TelaInicial telaInicial) {
-    if (instancia == null)
+    if (instancia == null) {
         instancia = new Listagem(telaInicial);
-        return instancia;
+    }
+    return instancia;
 }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApagar;
     private javax.swing.JButton btnFechar;

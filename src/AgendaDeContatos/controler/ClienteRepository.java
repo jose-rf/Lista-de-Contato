@@ -97,7 +97,7 @@ public class ClienteRepository implements Crud<Contatos> {
     }
 
     // método para listar todos os clientes
-    public List<Contatos> listarTodos() {
+    public List<Contatos> listarTodos(Connection connection1) {
         List<Contatos> lista = new ArrayList<>();
         String comando = "SELECT * FROM CLIENTES";
         

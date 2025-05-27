@@ -7,6 +7,12 @@ package AgendaDeContatos.view;
 import AgendaDeContatos.controler.ClienteRepository;
 import AgendaDeContatos.controler.ConexaoMySQL;
 import AgendaDeContatos.model.Contatos;
+import AgendaDeContatos.view.notification.EmailNotifier;
+import AgendaDeContatos.view.notification.Observer;
+import AgendaDeContatos.view.notification.SmsNotifier;
+import AgendaDeContatos.view.notification.UserNotifier;
+import java.sql.Connection;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -134,34 +140,50 @@ public class TelaCadastro extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
-           try {
-            Contatos contato = new Contatos();
-            contato.setNome(txtNome.getText());
-            contato.setEmail(txtEmail.getText());
-            contato.setContato(txtTelefone.getText());
+  try {
+        Contatos contato = new Contatos();
+        contato.setNome(txtNome.getText());
+        contato.setEmail(txtEmail.getText());
+        contato.setContato(txtTelefone.getText());
 
-            ClienteRepository clienteRepository = new ClienteRepository();
-            boolean retornoBanco;
+        ClienteRepository clienteRepository = new ClienteRepository();
+        boolean retornoBanco;
 
-            if (txtId.getText().isEmpty() || txtId.getText().equals("0")) {
-                retornoBanco = clienteRepository.inserir(ConexaoMySQL.connection, contato);
-            } else {
-                contato.setId(Integer.parseInt(txtId.getText()));
-                retornoBanco = clienteRepository.atualizar(ConexaoMySQL.connection, contato);
+        if (txtId.getText().isEmpty() || txtId.getText().equals("0")) {
+            retornoBanco = clienteRepository.inserir(ConexaoMySQL.connection, contato);
+        } else {
+            contato.setId(Integer.parseInt(txtId.getText()));
+            retornoBanco = clienteRepository.atualizar(ConexaoMySQL.connection, contato);
+        }
+
+        if (retornoBanco) {
+            JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!",
+                "Tela de Cadastro", JOptionPane.INFORMATION_MESSAGE);
+
+            ConexaoMySQL conexaoMySQL = new ConexaoMySQL();
+            Connection connection = conexaoMySQL.conectar();
+
+            // Reutiliza clienteRepository declarado anteriormente
+            List<Contatos> usuariosCadastrados = clienteRepository.listarTodos(connection);
+
+            UserNotifier userNotifier = new UserNotifier();
+
+            for (Contatos usuario : usuariosCadastrados) {
+                userNotifier.adicionarObservador((Observer) new EmailNotifier(usuario.getEmail()));
+                userNotifier.adicionarObservador(new SmsNotifier(usuario.getContato()));
             }
 
-            if (retornoBanco) {
-                JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!",
-                    "Tela de Cadastro", JOptionPane.INFORMATION_MESSAGE);
-                limparJanela();
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao cadastrar.",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(),
+            userNotifier.notificarTodos("Novo usuário cadastrado no sistema!");
+
+            limparJanela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar.",
                 "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(),
+            "Erro", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnCadastroActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
